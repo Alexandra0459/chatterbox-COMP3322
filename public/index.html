@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatterBox</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="./javascripts/myscripts.js"></script>
+    <link rel="stylesheet" href="./stylesheets/mystyles.css" type="text/css">
+</head>
+<body ng-app="loadpage" ng-controller="pagecontroller" ng-init="load()">
+<div id="heading"><a href="index.html"><img src="chatterbox1.png" id="title" ></a></div>
+<div id="beforelogin" ng-hide="visible">
+    <div id="login">
+        <div id="faillogin" ng-show="lgfailvisible">Login Failed!</div>
+        Username:<input type="text" id="Username" class="singin" ng-model="new_user.username"><br>
+        Password:<input type="password" id="Password" class="singin" ng-model="new_user.password"><br>
+        <button type="button"  class="functionButton" id="signin" ng-click="login(new_user)">Sign In</button>
+    </div>
+</div>
+<div id="afterlogin" ng-show="visible">
+<div id="userinfo">
+    <div id="nameandlogo">
+        <a href="javascript:void(0)" ng-click="getinfo()"><img src={{usericon}} id="userlogo">
+        {{username}}</a>
+    </div>
+    <div class="buttonplace"><button type="button"  class="functionButton" id="logout" ng-click="logout()">Log out</button></div>
+
+</div>
+<div class="wrap">
+    <div class="left">
+        <div id="friends">
+            <div>Friends:</div>
+            <a href="javascript:void(0)" ><div ng-repeat="friend in friendsinfo" class="friend click-{{friend.friendclick}}" data={{friend.name}} ng-click="loadfriend(friend.name,1)"><br>{{friend.name}}{{friend.message}}<br></div></a>
+        </div>
+    </div>
+    <div class="right">
+        <div id="friendcontact" ng-show="viscont">
+            <div id="friendinfo">
+                <div id="friendicon"><img src={{usericon}}></div>
+                <div id="nameandstate1">{{username}}</div>
+            </div>
+            <div id="contact">
+                Mobile number:<input type="text" id="Mobilenumber" class="singin" ng-model="new_user.mobilenumber"><br>
+                Home number:<input type="text" id="Homenumber"class="singin" ng-model="new_user.homenumber"><br>
+                Mailing address:<input type="text" id="Mailaddress"class="singin" ng-model="new_user.address"><br>
+                <button type="button"  class="functionButton" id="sign1in" ng-click="save(new_user)">Save</button>
+            </div>
+        </div>
+    <div id="conversation" ng-show="visconv">
+        <div id="friendinfo">
+            <div id="friendicon"><img src={{conversation.icon}}></div>
+            <div id="nameandstate">{{conversationname}}({{conversation.status}})</div>
+        </div><div id="overflow" onload="setscroll()">
+        <div id="messagesrepeater" ng-repeat="day in time | orderBy:'+messages[0]._id'">
+        <div class="date" >{{day.date}}</div>
+        <div id="messages">
+            <div  ng-repeat="mes in day.messages| orderBy:'+time'"><div class="messagereceived"  ng-hide="{{mes.deleted}}" ng-dblclick="deletemessage(mes._id,mes.receiveflag)">
+                <div class="micon" ng-show={{mes.receiveflag}}><img src={{conversation.icon}}></div>
+                <div class="mrcontent{{mes.receiveflag}}"><div class="rightflow" ng-hide={{mes.receiveflag}}>{{mes.message}}</div><div ng-show={{mes.receiveflag}}>{{mes.message}}</div></div>
+                <div class="mrdate{{mes.receiveflag}}">{{mes.time}}</div>
+            </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="userinput">
+        <input type="text" id="userinput" value="Type your message here" ng-model="userinput" ng-enter="addmessage()" ng-click="clickinput()">
+        </div></div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>
